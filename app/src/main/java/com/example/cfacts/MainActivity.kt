@@ -37,6 +37,13 @@ class MainActivity : AppCompatActivity() {
                 factListView.adapter = FactAdapter(this, R.layout.fact_item, factList)
                 progressBar.visibility = View.GONE
 
+                factListView.setOnItemClickListener { _:AdapterView<*>, _:View, pos:Int, _:Long ->
+                    val intent = Intent(this, FactDetailActivity::class.java).apply {
+                        putExtra("FactText", factList[pos].text)
+                    }
+                    startActivity(intent)
+                }
+
 
 
 
@@ -67,5 +74,4 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 }
-
 

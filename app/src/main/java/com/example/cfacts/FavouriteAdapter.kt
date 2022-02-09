@@ -24,6 +24,8 @@ class FavouriteAdapter(var cntx: Context, var res:Int, var items:List<Fact>): Ar
         fromFavouriteBtn.setOnClickListener {
             FavouriteList.favouriteList.remove(Fact(item.text))
             Toast.makeText(parent.context, "Удалено", Toast.LENGTH_SHORT).show()
+
+
         }
         factTextView.text = item.text
         return view

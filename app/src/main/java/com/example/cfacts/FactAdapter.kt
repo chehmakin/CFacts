@@ -25,6 +25,7 @@ class FactAdapter(var cntx:Context, var res:Int, var items:List<Fact>):ArrayAdap
         toFavouriteBtn.setOnClickListener {
 
             FavouriteList.favouriteList.add(Fact(item.text))
+            Toast.makeText(parent.context, "Добавлено", Toast.LENGTH_SHORT).show()
         }
 
         factTextView.text = item.text

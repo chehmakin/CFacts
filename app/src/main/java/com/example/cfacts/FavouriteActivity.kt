@@ -1,55 +1,47 @@
 package com.example.cfacts
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.cfacts.FavouriteList.favouriteList
-import io.realm.*
+
 
 
 class FavouriteActivity : AppCompatActivity() {
 
-
+    var favourList = favouriteList.toList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favourite)
-        initRealm()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        val favourListView = findViewById<ListView>(R.id.FavourListView)
-//        saveToDb(favouriteList)
-        val adapter = FavouriteAdapter(this, R.layout.favourite_item, favouriteList.distinct())
+        if (favourList.isNotEmpty()) {
+            findViewById<TextView>(R.id.message).visibility = View.GONE
+            val favourListView = findViewById<ListView>(R.id.FavourListView)
+            val adapter = FavouriteAdapter(this, R.layout.favourite_item, favourList)
 
-        favourListView.adapter = adapter
+            favourListView.adapter = adapter
 
+        favourListView.setOnItemClickListener { _:AdapterView<*>, _:View, pos:Int, _:Long ->
+            val intent = Intent(this, FactDetailActivity::class.java).apply {
+                putExtra("FactText", favourList[pos].text)
+            }
+            startActivity(intent)
+        }
+        }
 
 
     }
-
-    fun initRealm(){
-        Realm.init(this)
-        val config = RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()
-        Realm.setDefaultConfiguration(config)
-    }
-
-//    fun loadFromDb(): List<Fact>? {
-//        val realm = Realm.getDefaultInstance()
-//        return realm.where(Fact::class.java).findAll()
-//    }
-
-
-//    fun saveToDb(facts:List<Fact>){
-//        val realm = Realm.getDefaultInstance()
-//
-//        realm.beginTransaction()
-//        realm.copyToRealm(facts)
-//        realm.commitTransaction()
-//    }
 
 
 
 
 
 }
+
